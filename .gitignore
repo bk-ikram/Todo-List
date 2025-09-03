@@ -3,3 +3,6 @@ node_modules/
 
 # Generate output
 dist
+
+# Inspo template
+src/template_generated.html
