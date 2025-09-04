@@ -6,3 +6,5 @@ dist
 
 # Inspo template
 src/template_generated.html
+src/index_generated.js
+generated_webpack.config.js

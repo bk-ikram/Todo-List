@@ -1,4 +1,4 @@
-
+import "./styles.css";
 import { Project , TodoItem , ChecklistItem } from './classes.js';
 import { storageAvailable, populateStorage, getStorage } from './storage.js';
 

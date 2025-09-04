@@ -1,0 +1,61 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    position: absolute;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 'sidebar main';
+}
+#sidebar{
+    background-color: #2d2d44;
+    grid-area: sidebar;
+    height: 100vh;
+    display:grid;
+    grid-template-rows: 1fr 7fr 1fr;
+    grid-template-areas: 'title' 'projects' 'add-project';
+    color: white;
+    padding: 15px;
+    position: sticky;
+    top: 0px;
+    gap: 20px;
+}
+#sidebar h1{
+    font-size: 30px;
+    grid-area: title;
+}
+button{
+    all: unset;
+}
+#add-project{
+    background-color: rgb(61,61,92);
+    border-radius: 5px;
+    grid-area: add-project;
+    text-align: center;
+}
+.project-item{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(61,61,92);
+    border-radius: 5px;
+    padding: 8px 20px 8px 10px;
+    margin-bottom: 5px;
+}
+h2{
+    display: inline;
+    font-size: 15px;
+}
+#main{
+    background-color: #f4f4f9;
+    grid-area: main;
+    padding: 20px;
+}
+
+.project-item .delete{
+    color: #ffb3b3;
+}

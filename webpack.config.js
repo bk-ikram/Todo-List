@@ -12,11 +12,19 @@ module.exports = {
   },
   devtool: "eval-source-map",
   devServer: {
-    watchFiles: [".src/template.html"],
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+    },
+    hot: false,            // disable HMR for HTML, rely on reload
+    liveReload: true,      // enable full page reload on HTML change
+    watchFiles: ['src/**/*.html','src/**/*.css'],
+    port: 8080,
+    open: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/template.html",
+      cache: false,
     }),
   ],
   module: {
