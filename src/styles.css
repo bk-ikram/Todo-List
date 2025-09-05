@@ -1,8 +1,15 @@
+/*------------------------------------*\
+    #CSS RESET
+\*------------------------------------*/
+
 *{
     box-sizing: border-box;
     margin: 0;
 }
 
+/*------------------------------------*\
+    Front Page
+\*------------------------------------*/
 body{
     position: absolute;
     width: 100%;
@@ -12,6 +19,13 @@ body{
     grid-template-columns: 1fr 2fr;
     grid-template-areas: 'sidebar main';
 }
+
+button{
+    all: unset;
+    border-radius: 5px;
+    text-align: center;
+}
+/**********    Side Bar    ***********/
 #sidebar{
     background-color: #2d2d44;
     grid-area: sidebar;
@@ -25,19 +39,23 @@ body{
     top: 0px;
     gap: 20px;
 }
+
+/*
+    ## App header and add project
+*/
 #sidebar h1{
     font-size: 30px;
     grid-area: title;
 }
-button{
-    all: unset;
-}
+
 #add-project{
     background-color: rgb(61,61,92);
-    border-radius: 5px;
     grid-area: add-project;
-    text-align: center;
+    margin-top: 10px;
 }
+/*
+    ## Project Items
+*/
 .project-item{
     display: flex;
     justify-content: space-between;
@@ -46,16 +64,60 @@ button{
     padding: 8px 20px 8px 10px;
     margin-bottom: 5px;
 }
-h2{
+.project-item h2{
     display: inline;
     font-size: 15px;
 }
+
+/**********    Main Content    ***********/
 #main{
     background-color: #f4f4f9;
     grid-area: main;
     padding: 20px;
 }
 
-.project-item .delete{
-    color: #ffb3b3;
+#todo-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#add-todo-item{
+    margin: 20px 0px;
+    background-color: rgb(255,179,179);
+    color:rgb(61,61,92);
+    padding: 5px 15px;
+}
+/*
+    ## To-do items
+*/
+.todo-item{
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: rgb(85,85,85);
+}
+
+.todo-item .title-line{
+    display: flex;
+    font-size: 15px;
+    justify-content: space-between;
+    gap: min(30px);
+}
+
+.todo-title,.checklist{
+    color: black;
+}
+
+.todo-item .todo-actions{
+    display: flex;
+    gap: min(10px);
+}
+
+.todo-item ul{
+    list-style-type: '▢ ';
 }
