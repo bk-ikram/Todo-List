@@ -14,7 +14,7 @@
             <div class="project-template">
                 <span class="project-item">
                     <h2 class="project-name">Test Project</h2>
-                    <button class="delete">✖</button>
+                    <button class="delete-project">✖</button>
                 </span>
             </div>
         </div>
@@ -23,9 +23,10 @@
     <div id="main">
         <div id="todo-list">
             <div class="todo-template">
-                <div class="todo-item">
+                <div class="todo-item incomplete">
                     <div class="title-line">
                         <div class="todo-title">
+                            <span>▢ </span>
                             <h3>My to do todo-list</h3>
                         </div>
                         <div class="todo-actions">
@@ -34,10 +35,11 @@
                         </div>
                     </div>
                     <div class="desc-line">This project is difficult</div>
+                    <div class="details-line">Due: 2025-09-18 | Priority: Medium</div>
                     <div class="notes">I must concentrate on This</div>
                     <ul class="checklist">
-                        <li>My step one</li>
-                        <li>My step two</li>
+                        <li>My step one<button>✖</button></li>
+                        <li>My step two<button>✖</button></li>
                     </ul>
                     <button class="add-checklist-item">+ Add Checklist Item</button>
                 </div>

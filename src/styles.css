@@ -68,6 +68,9 @@ button{
     display: inline;
     font-size: 15px;
 }
+button.delete-project{
+    color: rgb(255,179,179);
+}
 
 /**********    Main Content    ***********/
 #main{
@@ -87,6 +90,7 @@ button{
     background-color: rgb(255,179,179);
     color:rgb(61,61,92);
     padding: 5px 15px;
+    font-weight: 600;
 }
 /*
     ## To-do items
@@ -95,7 +99,7 @@ button{
     background-color: white;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-    padding: 20px 15px;
+    padding: 20px 20px;
     display: flex;
     flex-direction: column;
     gap: 7px;
@@ -109,15 +113,43 @@ button{
     gap: min(30px);
 }
 
-.todo-title,.checklist{
-    color: black;
+.todo-title h3{
+    display: inline;
 }
+
+.todo-item.complete{
+    text-decoration: line-through;
+}
+
+
 
 .todo-item .todo-actions{
     display: flex;
     gap: min(10px);
 }
 
+/*    Checklist    */
+.todo-title,.checklist{
+    color: black;
+}
+
+button.add-checklist-item{
+    margin: 20px 0px;
+    background-color: rgb(255,179,179);
+    color:rgb(61,61,92);
+    padding: 5px 15px;
+    font-weight: 600;
+    width: fit-content;
+}
 .todo-item ul{
     list-style-type: '▢ ';
+}
+
+.todo-item li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-item li button{
+    color: rgb(255,179,179);
 }
