@@ -47,6 +47,58 @@
         </div>
         <button id="add-todo-item">+ Add To-Do</button>
     </div>
+    <dialog id="project-modal">
+        <form method="dialog">
+            <h3>Add / Edit Project</h3>
+            <label for="project-name">
+                Project Name
+            </label>
+            <input id="project-name" type="text" required />
+            
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="todo-modal" open>
+        <form method="dialog">
+            <h3>Add / Edit To-Do</h3>
+            <div>
+                <label for="title">
+                    Title
+                </label>
+                <input id="title" type="text" placeholder="Title" required />
+            </div>
+            <div>
+                <label for="description">
+                    Description
+                </label>
+                <input id="description" type="textarea" placeholder="Description"/>
+            </div>
+            <div>
+                <label for="due-date">
+                    Due Date
+                </label>
+                <input id ="due-date" type="date" placeholder="mm/dd/yyyy"/>
+            </div>
+            <div>
+                <label for="priority">
+                    Priority
+                </label>
+                <select id="priority" name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 
 </html>
+
