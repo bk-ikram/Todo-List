@@ -10,13 +10,13 @@
 <body>
     <div id="sidebar">
         <h1>Projects</h1>
-        <div class="project-list">
-            <div class="project-template">
-                <span class="project-item">
-                    <h2 class="project-name">Test Project</h2>
+        <div id="project-list">
+            <template class="project-template">
+                <span tabindex="0" class="project-item">
+                    <h2 class="project-name">Template Project</h2>
                     <button class="delete-project">✖</button>
                 </span>
-            </div>
+            </template>
         </div>
         <button id="add-project">+ Add Project</button>
     </div>
@@ -49,11 +49,11 @@
     </div>
     <dialog id="project-modal">
         <form method="dialog">
-            <h3>Add / Edit Project</h3>
+            <h3>Add Project</h3>
             <label for="project-name">
                 Project Name
             </label>
-            <input id="project-name" type="text" required />
+            <input id="project-name" name="project-name" type="text" required />
             
             <div class="dialog-actions">
                 <button class="cancel-btn">Cancel</button>
@@ -61,7 +61,7 @@
             </div>
         </form>
     </dialog>
-    <dialog id="todo-modal" open>
+    <dialog id="todo-modal">
         <form method="dialog">
             <h3>Add / Edit To-Do</h3>
             <div>
@@ -91,6 +91,21 @@
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                 </select>
+            </div>
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="checklist-modal">
+        <form method="dialog">
+            <h3>Add / Edit Checklist Item</h3>
+            <div>
+                <label for="item">
+                    Item
+                </label>
+                <input id="item" type="text" placeholder="Checklist Item" required />
             </div>
             <div class="dialog-actions">
                 <button class="cancel-btn">Cancel</button>

@@ -68,9 +68,11 @@ body{
     display: flex;
     justify-content: space-between;
     background-color: rgb(61,61,92);
+    border: 2px solid transparent;
     border-radius: 5px;
     padding: 8px 20px 8px 10px;
     margin-bottom: 5px;
+    cursor: pointer;
 }
 .project-item h2{
     display: inline;
@@ -80,6 +82,9 @@ button.delete-project{
     color: rgb(255,179,179);
 }
 
+.project-item:focus{
+    border-color: rgb(255,179,179);
+}
 /**********    Main Content    ***********/
 #main{
     background-color: #f4f4f9;
@@ -172,7 +177,7 @@ dialog{
     border: none;
     border-radius: 10px;
     width: 60%;
-    padding: 30px 20px;
+    padding: 20px;
 }
 
 dialog::backdrop{
@@ -193,6 +198,9 @@ input,select{
     border-radius: 4px;
     background-color: inherit;
     border: black solid 1px;
+}
+input::placeholder{
+    color: #dcdcdc;
 }
 .dialog-actions{
     display: flex;
