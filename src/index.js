@@ -1,10 +1,11 @@
 import "./styles.css";
-import { Project , TodoItem , ChecklistItem } from './classes.js';
+import { Project , TodoItem , ChecklistItem, ProjectList } from './classes.js';
 import { storageAvailable, populateStorage, getStorage } from './storage.js';
 
 const projectStorageName = "__projectList__";
 
 const registry = {
+    ProjectList,
     Project,
     TodoItem,
     ChecklistItem
@@ -15,45 +16,38 @@ const isLocalStorageAvailable = storageAvailable("localStorage");
 
 
 // Initialize project list
-let projects = initializeProjects(projectStorageName);
+const projectList = document.querySelector("#project-list");
+const projectTemplate= projectList.querySelector("template");
+
+
+let ProjectCollection = initializeProjects(projectStorageName);
+
+renderProjects();
 
 function initializeProjects(projectStorageName){
     // Load projects from local storage
     //// Test to see if localStorage is available for use
     if (isLocalStorageAvailable) {
         // Check if we have data for this project stored in localStorage
-        if(localStorage.projectStorageName){
+        if(localStorage[projectStorageName]){
             console.log("Project Data found in local storage");
-            return getStorage(projectStorageName);
+            const projectsInStorage = getStorage(projectStorageName, registry);
+            return new ProjectList(projectsInStorage.list);
         }
         console.log("No project data found in local storage.");
     }
     else{
         console.log("Local Storage cannot be used currently.")
     }
-    return [new Project('My To do List')];
+    return new ProjectList();
 }
 
-const projectList = document.querySelector("#project-list");
-const projectTemplate= projectList.querySelector("template");
-
-/*
-//for testing
-//create a new project
-projects.push(new Project("Test Project"));
-
-projects[1].addItem(new TodoItem('My first item', 'This is my very first to do list item', '2025-12-31', 'normal'));
-*/
-populateStorage(projectStorageName, registry, projects);
-
-projects = getStorage(projectStorageName, registry);
-
-renderProjects();
-
-console.log(projects);
+/*------------------------------------*\
+    Add element funcitonality
+\*------------------------------------*/
 
 
-/***********   Add element funcitonality   ************/
+/***********   Project Management   ************/
 
 
 //find the relevant elements
@@ -63,50 +57,70 @@ const projectForm = projectmodal.querySelector("form");
 const projectSaveBtn = projectmodal.querySelector(".save-btn");
 const projectCancelBtn = projectmodal.querySelector(".cancel-btn");
 
-
-console.log("current code working");
-
-//Add the event listeners
+//Add Project
 addProjectBtn.addEventListener("click",()=>{
     console.log("button clicked");
     projectmodal.showModal();
 })
 
-projectList.addEventListener("click",(e)=>{
-    console.log("delete-project" in Array.from(e.target.classList))
-    if(Array.from(e.target.classList).includes("delete-project")){
-        e.target.parentElement.remove();
-    }
-})
-
 projectSaveBtn.addEventListener("click",()=>{
     const formData = new FormData(projectForm);
     const projectName = formData.get("project-name");
-    projects.push(new Project(projectName));
-    //update storage
-    populateStorage(projectStorageName, registry, projects);
+    ProjectCollection.addItem(new Project(projectName));
     //render project list
     renderProjects();
     projectmodal.close();
 });
+
+
+//Delete Project
+projectList.addEventListener("click",(e)=>{
+    if(Array.from(e.target.classList).includes("delete-project")){
+        const selectedProject = e.target.parentElement;
+        const selectedProjectId = selectedProject.getAttribute('UID');
+        const confirmMessage = "Are you sure you want to delete this project and its to-do items?"
+        if(confirm(confirmMessage) === true){
+            ProjectCollection.deleteItem(selectedProjectId);
+        }
+    }
+})
 
 projectCancelBtn.addEventListener("click",()=>{
     projectmodal.close();
 });
 
 
-
-
-//Rendering elements on the page
+//Rendering projects on the page
 
 function renderProjects(){
+    //First, save changes to localStorage
+    populateStorage(projectStorageName, registry, ProjectCollection);
     //Remove currently rendered projects
     const renderedList = Array.from(projectList.children).filter((ele) => ele.tagName === "SPAN");
     renderedList.map((ele)=>ele.remove());
-    for(let i = 0; i < projects.length; i++){
-        const ele = projectTemplate.content.cloneNode(true);
-        ele.querySelector("h2").textContent = projects[i].name;
+    for(let i = 0; i < ProjectCollection.list.length; i++){
+        const frag = projectTemplate.content.cloneNode(true);
+        const ele = frag.firstElementChild;
+        ele.querySelector("h2").textContent = ProjectCollection.list[i].name;
+        ele.setAttribute('UID',ProjectCollection.list[i].id);
         projectList.appendChild(ele);
-        console.log(i);
     }
 };
+
+/***********   To-do Management   ************/
+
+//find the relevant elements
+const addToDoBtn = document.querySelector("#add-todo-item");
+const toDoModal = document.querySelector("#todo-modal");
+
+// Add To-do. Used mousedown to detect previously focused item
+addToDoBtn.addEventListener("mousedown",()=>{
+    //First check if a project is selected
+    const elementInFocus = document.activeElement;
+    if(Array.from(elementInFocus.classList).includes("project-item")){
+        toDoModal.showModal();
+    }
+    else{
+        alert("Please select a project you would like to add your to-do to.");
+    }
+})

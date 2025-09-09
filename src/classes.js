@@ -1,3 +1,10 @@
+class ProjectList{
+    constructor(projectsInStorage = []){
+        this.list = projectsInStorage;
+    }
+    
+}
+
 class Project{
     constructor(name){
         this.id = crypto.randomUUID()
@@ -53,9 +60,10 @@ const isItem = {
 }
 
 Object.assign(Project.prototype, hasItems);
+Object.assign(ProjectList.prototype, hasItems);
 Object.assign(TodoItem.prototype, hasItems, isItem);
 Object.assign(ChecklistItem.prototype, isItem);
 
 
 
-export { Project , TodoItem , ChecklistItem}
+export { Project , TodoItem , ChecklistItem, ProjectList}
