@@ -22,28 +22,25 @@
     </div>
     <div id="main">
         <div id="todo-list">
-            <div class="todo-template">
-                <div class="todo-item incomplete">
+            <template id="todo-template">
+                <div class="todo-item" status="incomplete">
                     <div class="title-line">
                         <div class="todo-title">
                             <span>▢ </span>
-                            <h3>My to do todo-list</h3>
+                            <h3></h3>
                         </div>
                         <div class="todo-actions">
                             <button class="edit">Edit</button>
                             <button class="delete">Delete</button>
                         </div>
                     </div>
-                    <div class="desc-line">This project is difficult</div>
-                    <div class="details-line">Due: 2025-09-18 | Priority: Medium</div>
-                    <div class="notes">I must concentrate on This</div>
+                    <div class="desc-line"></div>
+                    <div class="details-line"></div>
                     <ul class="checklist">
-                        <li>My step one<button>✖</button></li>
-                        <li>My step two<button>✖</button></li>
                     </ul>
                     <button class="add-checklist-item">+ Add Checklist Item</button>
                 </div>
-            </div>
+            </template>
         </div>
         <button id="add-todo-item">+ Add To-Do</button>
     </div>
@@ -88,7 +85,7 @@
                 </label>
                 <select id="priority" name="priority">
                     <option value="low">Low</option>
-                    <option value="medium">Medium</option>
+                    <option value="medium" selected>Medium</option>
                     <option value="high">High</option>
                 </select>
             </div>
@@ -105,7 +102,7 @@
                 <label for="item">
                     Item
                 </label>
-                <input id="item" type="text" placeholder="Checklist Item" required />
+                <input id="item" name="item" type="text" placeholder="Checklist Item" required />
             </div>
             <div class="dialog-actions">
                 <button class="cancel-btn">Cancel</button>

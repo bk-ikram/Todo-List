@@ -82,7 +82,7 @@ button.delete-project{
     color: rgb(255,179,179);
 }
 
-.project-item:focus{
+.project-item.selected{
     border-color: rgb(255,179,179);
 }
 /**********    Main Content    ***********/
@@ -157,10 +157,10 @@ button.add-checklist-item{
 .todo-item ul{
     list-style-type: '▢ ';
 }
-
 .todo-item li{
     display: flex;
     justify-content: space-between;
+    list-style-type: '▢ ';
 }
 
 .todo-item li button{

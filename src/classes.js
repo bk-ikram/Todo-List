@@ -23,20 +23,25 @@ class TodoItem{
         this.priority = priority
         this.status = 'Not Started'
         this.list = []
-        this.notes = ''
     }
 
+    updatePropsFromForm(title, description, dueDate, priority){
+        this.title = title
+        this.description = description
+        this.dueDate = dueDate
+        this.priority = priority
+    }
 }
 
 class ChecklistItem {
     constructor(description){
         this.id = crypto.randomUUID()
         this.description = description
-        this.status = 'Not Started'
+        this.status = 'incomplete'
     }
 
     toggleStatus (){
-        this.status === 'Not Started' ? 'Completed' : 'Not Started';
+        this.status === 'incomplete' ? 'completed' : 'incomplete';
     }
 }
 
@@ -45,15 +50,14 @@ const hasItems = {
         this.list.push(classConstructor);
     },
     deleteItem(id){
-        index = this.list.indexOf(id);
+        const index = this.list.indexOf(id);
         this.list.splice(index,1);
     },
     modifyProperty(property, newValue){
         this[property] = newValue;
     },
     returnItemById(id){
-        index = this.list.indexOf(id);
-        return this.list[index];
+        return this.list.find(item => item.id === id);
     }
 }
 
