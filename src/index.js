@@ -108,19 +108,72 @@ function renderProjects(){
 };
 
 /***********   To-do Management   ************/
+let elementInFocus = undefined;
 
 //find the relevant elements
 const addToDoBtn = document.querySelector("#add-todo-item");
 const toDoModal = document.querySelector("#todo-modal");
+const toDoForm = toDoModal.querySelector("form");
+const cancelModal = toDoModal.querySelector("cancel-btn");
+const saveModal = toDoModal.querySelector("save-btn");
 
 // Add To-do. Used mousedown to detect previously focused item
 addToDoBtn.addEventListener("mousedown",()=>{
     //First check if a project is selected
-    const elementInFocus = document.activeElement;
+    elementInFocus = document.activeElement;
     if(Array.from(elementInFocus.classList).includes("project-item")){
+        toDoForm.setAttribute(mode,"add");
+        toDoForm.setAttribute("projectId",elementInFocus.getAttribute("UID"));
         toDoModal.showModal();
     }
     else{
         alert("Please select a project you would like to add your to-do to.");
     }
 })
+
+//Cancel Todo Create/Edit
+cancelModal.addEventListener("click",()=>{
+    currentMode = undefined;
+    toDoModal.close();
+})
+
+//Create Todo Item
+saveModal.addEventListener("click",()=>{
+    const formData = new FormData(toDoForm);
+    //Check if the form is in edit or add mode
+    const mode = toDoForm.getAttribute("mode");
+    const projectId = toDoForm.getAttribute("projectId");
+    const toDoId = toDoForm.getAttribute("toDoId");
+    const currentToDo = toDoForm.getAttribute("toDoId");
+    if(mode === "add"){
+        addToDo(projectId,formData);
+        //renderToDos()
+    }
+    else{
+        editToDo(projectId,toDoId,formData)
+    }
+})
+
+function addToDo(projectId,formData){
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const dueDate = formData.get("due-date");
+    const priority = formData.get("priority");
+    const ProjectObj = ProjectCollection.returnItemByID(projectId);
+    ProjectObj.addItem(new TodoItem(title, description, dueDate, priority));
+}
+
+function editToDo(projectId,toDoId,formData){
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const dueDate = formData.get("due-date");
+    const priority = formData.get("priority");
+    const ProjectObj = ProjectCollection.returnItemByID(projectId);
+    const ToDoObj = ProjectObj.returnItemByID(toDoId);
+    ToDoObj.modifyProperty("title", title);
+    ToDoObj.modifyProperty("description", description);
+    ToDoObj.modifyProperty("dueDate", dueDate);
+    ToDoObj.modifyProperty("priority", priority);
+    
+    
+}

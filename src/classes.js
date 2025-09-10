@@ -50,6 +50,10 @@ const hasItems = {
     },
     modifyProperty(property, newValue){
         this[property] = newValue;
+    },
+    returnItemById(id){
+        index = this.list.indexOf(id);
+        return this.list[index];
     }
 }
 
