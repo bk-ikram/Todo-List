@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do App</title>
+<script defer src="main.js"></script></head>
+
+<body>
+    <div id="sidebar">
+        <h1>Projects</h1>
+        <div id="project-list">
+            <template class="project-template">
+                <span tabindex="0" class="project-item">
+                    <h2 class="project-name">Template Project</h2>
+                    <button class="delete-project">✖</button>
+                </span>
+            </template>
+        </div>
+        <button id="add-project">+ Add Project</button>
+    </div>
+    <div id="main">
+        <div id="todo-list">
+            <template id="todo-template">
+                <div class="todo-item">
+                    <div class="title-line">
+                        <h3 class="todo-title"></h3>
+                        <div class="todo-actions">
+                            <button class="edit">Edit</button>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </div>
+                    <div class="desc-line"></div>
+                    <div class="details-line"></div>
+                    <ul class="checklist">
+                    </ul>
+                    <button class="add-checklist-item">+ Add Checklist Item</button>
+                </div>
+            </template>
+        </div>
+        <button id="add-todo-item">+ Add To-Do</button>
+    </div>
+    <dialog id="project-modal">
+        <form method="dialog">
+            <h3>Add Project</h3>
+            <label for="project-name">
+                Project Name
+            </label>
+            <input id="project-name" name="project-name" type="text" required />
+            
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="todo-modal">
+        <form method="dialog">
+            <h3>Add / Edit To-Do</h3>
+            <div>
+                <label for="title">
+                    Title
+                </label>
+                <input id="title" type="text" name="text" placeholder="Title" required />
+            </div>
+            <div>
+                <label for="description">
+                    Description
+                </label>
+                <input id="description" name="description" type="textarea" placeholder="Description"/>
+            </div>
+            <div>
+                <label for="due-date">
+                    Due Date
+                </label>
+                <input id ="due-date" name ="due-date" type="date" placeholder="mm/dd/yyyy"/>
+            </div>
+            <div>
+                <label for="priority">
+                    Priority
+                </label>
+                <select id="priority" name="priority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="checklist-modal">
+        <form method="dialog">
+            <h3>Add / Edit Checklist Item</h3>
+            <div>
+                <label for="item">
+                    Item
+                </label>
+                <input id="item" name="item" type="text" placeholder="Checklist Item" required />
+            </div>
+            <div class="dialog-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+
+</html>
+
