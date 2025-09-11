@@ -21,7 +21,7 @@ class TodoItem{
         this.description = description
         this.dueDate = dueDate
         this.priority = priority
-        this.status = 'Not Started'
+        this.status = 'incomplete'
         this.list = []
     }
 
@@ -30,6 +30,9 @@ class TodoItem{
         this.description = description
         this.dueDate = dueDate
         this.priority = priority
+    }
+    toggleStatus (){
+        this.status = this.status === 'incomplete' ? 'completed' : 'incomplete';
     }
 }
 
@@ -41,7 +44,7 @@ class ChecklistItem {
     }
 
     toggleStatus (){
-        this.status === 'incomplete' ? 'completed' : 'incomplete';
+        this.status = this.status === 'incomplete' ? 'completed' : 'incomplete';
     }
 }
 
@@ -50,7 +53,7 @@ const hasItems = {
         this.list.push(classConstructor);
     },
     deleteItem(id){
-        const index = this.list.indexOf(id);
+        const index = this.list.findIndex(item => item.id === id);
         this.list.splice(index,1);
     },
     modifyProperty(property, newValue){

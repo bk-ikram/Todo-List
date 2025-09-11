@@ -60,7 +60,6 @@ const projectCancelBtn = projectmodal.querySelector(".cancel-btn");
 
 //Add Project
 addProjectBtn.addEventListener("click",()=>{
-    console.log("button clicked");
     projectmodal.showModal();
 })
 
@@ -70,6 +69,7 @@ projectSaveBtn.addEventListener("click",()=>{
     ProjectCollection.addItem(new Project(projectName));
     //render project list
     renderProjects();
+    projectForm.reset();
     projectmodal.close();
 });
 
@@ -87,6 +87,9 @@ projectList.addEventListener("click",(e)=>{
     const selectedProject = e.target.parentElement;
     const selectedProjectId = selectedProject.getAttribute('UID');
     ProjectCollection.deleteItem(selectedProjectId);
+    projectList.setAttribute("selectedProjectId","");
+    renderProjects();
+    renderToDos();
 })
 
 projectCancelBtn.addEventListener("click",()=>{
@@ -191,13 +194,15 @@ toDoList.addEventListener("click",(e)=>{
     if(!Array.from(target.classList).includes("delete")){
         return;
     }
+    const selectedToDoId = getTargetToDoId(target);
+    console.log(selectedToDoId);
     const confirmMessage = "Are you sure you want to delete item?"
     if(!confirm(confirmMessage) === true){
         return;
     }
     
-    const selectedToDoId = getTargetToDoId(target);
-    toDoList.setAttribute("selectedToDoId",selectedToDoId);
+    
+    //toDoList.setAttribute("selectedToDoId",selectedToDoId);
 
     //Get the selected project object
     const ProjectObj = getSelectedProjectObj();
@@ -212,7 +217,6 @@ toDoList.addEventListener("click",(e)=>{
 
 //populate to do form in case of todo modification
 function populateToDoForm(ToDoObj){
-    console.log("entered populate func");
     const titleEle = toDoForm.querySelector("#title");
     titleEle.value = ToDoObj.title;
     //description
@@ -255,7 +259,25 @@ saveModal.addEventListener("click",()=>{
     else if (mode === "edit"){
         editToDo(ToDoObj,toDoOptions)
     }
+    toDoModal.close();
     toDoForm.reset();
+    renderToDos();
+})
+
+//Toggle todo status
+
+toDoList.addEventListener("click",(e)=>{
+    //First check if the edit button is the target
+    const target = e.target;
+    if(target.tagName !== "H3"){
+        return;
+    }
+    const ToDoObj = getToDoObj(target);
+    
+    //toggle the state
+    ToDoObj.toggleStatus();
+
+    //render the to-do lists again
     renderToDos();
 })
 
@@ -267,18 +289,26 @@ function editToDo(ToDoObj,toDoOptions){
     ToDoObj.updatePropsFromForm(...toDoOptions);
 }
 
+function clearVisibleToDos(){
+    const renderedList = Array.from(toDoList.children).filter((ele) => ele.tagName === "DIV");
+    renderedList.map((ele)=>ele.remove());
 
+}
 
 function renderToDos(){
     //Save current state to storage
     populateStorage(projectStorageName, registry, ProjectCollection);
+   
+    //First, remove all rendered todos
+    clearVisibleToDos();
     
     //get selected project obj
     const ProjectObj = getSelectedProjectObj();
-
-    //First, remove all rendered todos
-    const renderedList = Array.from(toDoList.children).filter((ele) => ele.tagName === "DIV");
-    renderedList.map((ele)=>ele.remove());
+    //if the ProjectObj is undefined, in case of project deletion,
+    // do not show the todo items
+    if(!ProjectObj){
+        return;
+    }
 
     const todos = ProjectObj.list
     todos.sort((a, b)=> new Date(a.dueDate) - new Date(b.dueDate));
@@ -297,15 +327,24 @@ function renderToDos(){
         //details
         const detailsEle = ele.querySelector(".details-line");
         detailsEle.textContent = `Due: ${todos[i].dueDate} | Priority: ${todos[i].priority}`;
+        //status
+        ele.setAttribute("status",todos[i].status);
         //checklist
         const checlistItems = todos[i].list;
         const checklistEle = ele.querySelector(".checklist");
+
         for(let j = 0; j < checlistItems.length; j++){
+            //Create close button element that will be added to checklits items
+            const closeBtn = document.createElement("button");
+            closeBtn.textContent = '✖';
+            closeBtn.classList.add("delete-checklist");
             const checklistitem = document.createElement("li");
-            checklistitem.textContent = checlistItems[j].description;
+            const checklistSpan = document.createElement("span");
+            checklistSpan.textContent = checlistItems[j].description;
             checklistitem.setAttribute("status",checlistItems[j].status);
             checklistitem.setAttribute("UID",checlistItems[j].id);
-            checklistitem.after('<button>✖</button>');
+            checklistitem.appendChild(checklistSpan);
+            checklistitem.appendChild(closeBtn);
             checklistEle.appendChild(checklistitem);
         }
 
@@ -361,9 +400,37 @@ checkListSaveBtn.addEventListener("click",(e) => {
     const ToDoObj = getToDoObj();
     //add the item
     ToDoObj.addItem(new ChecklistItem(item));
+    checkListForm.reset();
     checkListModal.close();
     renderToDos();
-    console.log(ProjectCollection);
 })
 
 
+//Delete a checklist item
+toDoList.addEventListener("click",(e)=>{
+    if(!Array.from(e.target.classList).includes("delete-checklist")){
+        return;
+    }
+    const checklistItem = e.target.closest("li");
+    const checklistId = checklistItem.getAttribute("UID");
+    const ToDoObj = getToDoObj(e.target);
+    ToDoObj.deleteItem(checklistId);
+    renderToDos();
+})
+
+//toggle checklist item state
+toDoList.addEventListener("click",(e)=>{
+    if(Array.from(e.target.classList).includes("delete-checklist")){
+        return;
+    }
+    if(!e.target.closest("li")){
+        return;
+    }
+
+    const checklistItem = e.target.closest("li");
+    const checklistId = checklistItem.getAttribute("UID");
+    const ToDoObj = getToDoObj(e.target);
+    const ChecklistItem = ToDoObj.returnItemById(checklistId);
+    ChecklistItem.toggleStatus();
+    renderToDos();
+})

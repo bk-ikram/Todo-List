@@ -18,6 +18,11 @@ input{
     border: solid black 1px;
     padding: 0 5px;
 }
+ul{
+    list-style: none;
+    padding-left: 0.5em;
+    margin-left: 1.5em;
+}
 
 /*------------------------------------*\
     Front Page
@@ -119,6 +124,11 @@ button.delete-project{
     color: rgb(85,85,85);
 }
 
+li[status="completed"] span,
+[status="completed"].todo-item .todo-title{
+    text-decoration: line-through;
+}
+
 .todo-item .title-line{
     display: flex;
     font-size: 15px;
@@ -126,15 +136,9 @@ button.delete-project{
     gap: min(30px);
 }
 
-.todo-title h3{
+.todo-title{
     display: inline;
 }
-
-.todo-item.complete{
-    text-decoration: line-through;
-}
-
-
 
 .todo-item .todo-actions{
     display: flex;
@@ -147,24 +151,26 @@ button.delete-project{
 }
 
 button.add-checklist-item{
-    margin: 20px 0px;
+    margin-top: 5px;
     background-color: rgb(255,179,179);
     color:rgb(61,61,92);
     padding: 5px 15px;
     font-weight: 600;
     width: fit-content;
 }
-.todo-item ul{
-    list-style-type: '▢ ';
-}
+
 .todo-item li{
     display: flex;
-    justify-content: space-between;
-    list-style-type: '▢ ';
 }
-
+li span::before, .todo-title::before{
+    content: "▢";
+    margin-right: 0.5em;
+}
 .todo-item li button{
     color: rgb(255,179,179);
+    margin-left: auto;
+    text-decoration: none;
+    text-decoration-line: none;
 }
 
 /*------------------------------------*\
